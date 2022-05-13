@@ -1,0 +1,37 @@
+<!-- Send HTTP POST request to the IP address of the SONY TV with the XML as the payload data. -->
+<!-- Send the data to http://IP-ADDRESS-OF-YOUR-TV/IRCC (e.g. http://192.168.0.3/IRCC). -->
+<!-- If that doesn’t work, try http://IP-ADDRESS-OF-YOUR-TV/sony/IRCC. -->
+
+<!-- https://medium.com/@philw_/talking-to-your-sony-bravia-tv-over-http-with-google-now-tasker-xbmc-and-roku-7b71fe634966 -->
+
+<!-- HDMI IRCC Codes: -->
+<!-- HDMI1: "AAAAAgAAABoAAABaAw==" -->
+<!-- HDMI2: "AAAAAgAAABoAAABbAw==" -->
+<!-- HDMI3: "AAAAAgAAABoAAABcAw==" -->
+<!-- HDMI4: "AAAAAgAAABoAAABdAw==" -->
+
+<!-- cURL: -->
+<!-- https://ec.haxx.se/http/http-post -->
+<!-- curl -X POST -d @sony_hdmi_sel.xml https://<USERNAME>:<PASSWORD>@<DOMAIN>:<PORT>/<IPADDRESS>/sony/IRCC -->
+<!-- curl -X POST -d @sony_hdmi_sel.xml http://<USERNAME>:<PASSWORD>@<DOMAIN>:<PORT>/<IPADDRESS>/sony/IRCC -->
+
+<!-- curl -X POST -d @sony_hdmi_sel.xml http://192.168.1.33/sony/IRCC -->
+<!-- curl -X POST -d @sony_hdmi_sel.xml http://192.168.1.33/IRCC -->
+
+<!-- 192.168.1.33 -->
+
+curl -H "Content-Type: application/json" \
+  -X POST \
+  -H "X-Auth-PSK: <PASSWORD>" \
+  -d '<?xml version="1.0" encoding="utf-8"?>
+  <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <s:Body>
+      <u:X_SendIRCC xmlns:u="urn:schemas-sony-com:service:IRCC:1">
+          <IRCCCode>AAAAAgAAABoAAABdAw=</IRCCCode>
+      </u:X_SendIRCC>
+  </s:Body>
+  </s:Envelope>' \
+  http://<USERNAME>:<PASSWORD>@<DOMAIN>:<PORT>/<IPADDRESS>/sony/IRCC
+
+
+curl -XPOST -d @sony_hdmi_sel.xml -H 'Content-Type: text/xml; charset=UTF-8' http://<USERNAME>:<PASSWORD>@<DOMAIN>:<PORT>/<IPADDRESS>/sony/IRCC
